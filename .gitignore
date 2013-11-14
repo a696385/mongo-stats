@@ -19,10 +19,11 @@ _cgo_export.*
 
 _testmain.go
 pkg
-src/labix.org/*
 *.exe
 *.sublime*
 *.sh
 *.idea
 *.iml
 out/*
+*.json
+.bzr
