@@ -17,11 +17,11 @@ type Host struct {
 
 type Shard struct {
 	Name  string
-	Hosts []Host
+	Hosts Hosts
 }
 
 type Settings struct {
-	Mongos []Host
+	Mongos Hosts
 	Shards []Shard
 }
 
@@ -49,6 +49,24 @@ func (this *Settings) Save(fileName string) error {
 	return nil
 }
 
+type Hosts []Host
+
 func (this *Host) GetUrl() string {
 	return fmt.Sprintf("mongodb://%s:%s@%s:%d/admin", this.Username, this.Password, this.Hostname, this.Port)
+}
+
+func (this *Host) GetName() string {
+	return fmt.Sprintf("%s:%d", this.Hostname, this.Port)
+}
+
+func (this Hosts) Less(i, j int) bool {
+	return this[i].GetName() < this[j].GetName()
+}
+
+func (this Hosts) Len() int {
+	return len(this)
+}
+
+func (this Hosts) Swap(i, j int) {
+	this[i], this[j] = this[j], this[i]
 }
